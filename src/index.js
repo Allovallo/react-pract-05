@@ -4,9 +4,13 @@ import ReactDOM from "react-dom/client";
 class Toggle extends Component {
   state = { isOpen: false };
 
-  show = () => this.setState({ isOpen: true });
+  toggle = () => {
+    this.setState((state) => ({ isOpen: !state.isOpen }));
+  };
 
-  hide = () => this.setState({ isOpen: false });
+  // show = () => this.setState({ isOpen: true });
+
+  // hide = () => this.setState({ isOpen: false });
 
   render() {
     const { isOpen } = this.state;
@@ -14,8 +18,9 @@ class Toggle extends Component {
 
     return (
       <>
-        <button onClick={this.show}>Show</button>
-        <button onClick={this.hide}>Hide</button>
+        <button onClick={this.toggle}>{isOpen ? "Hide" : "Show"}</button>
+        {/* <button onClick={this.show}>Show</button>
+        <button onClick={this.hide}>Hide</button> */}
         {isOpen && children}
       </>
     );
@@ -32,14 +37,12 @@ class Counter extends Component {
     value: this.props.initialValue,
   };
 
-  handleIncrement = (e) => {
-    console.log("IB was clicked!", e);
-    console.log("this.props: ", this.props);
+  handleIncrement = () => {
+    this.setState((state, props) => ({ value: state.value + props.step }));
   };
 
-  handleDecrement = (e) => {
-    console.log("DB was clicked!", e);
-    console.log("this.props: ", this.props);
+  handleDecrement = () => {
+    this.setState((state, props) => ({ value: state.value - props.step }));
   };
 
   render() {
