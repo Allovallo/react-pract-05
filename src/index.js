@@ -1,11 +1,18 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom/client";
 
+const Gender = {
+  MALE: "male",
+  FEMALE: "female",
+};
+
 const INITIAL_STATE = {
   login: "",
   email: "",
   password: "",
   agreed: false,
+  gender: null,
+  age: "",
 };
 
 class SignUpForm extends Component {
@@ -33,10 +40,46 @@ class SignUpForm extends Component {
   };
 
   render() {
-    const { login, email, password, agreed } = this.state;
+    const { login, email, password, agreed, gender, age } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
+        <label>
+          Choose your age
+          <select name="age" value={age} onChange={this.handleChange}>
+            <option value="" disabled>
+              ...
+            </option>
+            <option value="18-25">18-25</option>
+            <option value="26-35">26-35</option>
+            <option value="36+">36+</option>
+          </select>
+        </label>
+
+        <section>
+          <h2>Choose your gender</h2>
+          <label>
+            Male
+            <input
+              type="radio"
+              checked={gender === Gender.MALE}
+              name="gender"
+              value={Gender.MALE}
+              onChange={this.handleChange}
+            ></input>
+          </label>
+          <label>
+            Female
+            <input
+              type="radio"
+              checked={gender === Gender.FEMALE}
+              name="gender"
+              value={Gender.FEMALE}
+              onChange={this.handleChange}
+            ></input>
+          </label>
+        </section>
+
         <label>
           Name
           <input
