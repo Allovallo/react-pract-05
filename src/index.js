@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   login: "",
   email: "",
   password: "",
+  agreed: false,
 };
 
 class SignUpForm extends Component {
@@ -13,16 +14,15 @@ class SignUpForm extends Component {
   };
 
   handleChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-    // this.setState({ login: e.target.value });
+    const { name, value, type, checked } = e.target;
+    this.setState({ [name]: type === "checkbox" ? checked : value });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // const { login, email, password } = this.state;
+    const { login, email, password, agreed } = this.state;
     console.log(
-      `Login: ${this.state.login}, Email: ${this.state.email}, Password: ${this.state.password}`
+      `Login: ${login}, Email: ${email}, Password: ${password}, Agreed: ${agreed}`
     );
     this.props.onSubmit({ ...this.state });
     this.reset();
@@ -33,7 +33,7 @@ class SignUpForm extends Component {
   };
 
   render() {
-    const { login, email, password } = this.state;
+    const { login, email, password, agreed } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -70,7 +70,19 @@ class SignUpForm extends Component {
           ></input>
         </label>
 
-        <button type="submit">Sign up as {login}</button>
+        <label>
+          Agree to terms
+          <input
+            type="checkbox"
+            checked={agreed}
+            name="checkbox"
+            onChange={this.handleChange}
+          ></input>
+        </label>
+
+        <button type="submit" disabled={!agreed}>
+          Sign up as {login}
+        </button>
       </form>
     );
   }
